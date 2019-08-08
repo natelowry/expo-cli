@@ -46,7 +46,10 @@ export default class AndroidUploader extends BaseUploader {
   }
 
   async _getServiceAccountJSONPath() {
-    const { key } = this.options;
+    let { key } = this.options;
+    if (process.env.EXPO_ANDROID_SERVICE_ACCOUNT_JSON_PATH) {
+      key = process.env.EXPO_ANDROID_SERVICE_ACCOUNT_JSON_PATH;
+    }
     if (key && (await fs.pathExists(key))) {
       return key;
     } else {
